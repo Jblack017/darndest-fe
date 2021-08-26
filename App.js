@@ -36,7 +36,7 @@ export default function App() {
           <Stack.Screen
             name='Kiddos'
             component={Kiddos}
-            options={{ title: "Your Kiddos" }}
+            options={{ title: "My Kiddos" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

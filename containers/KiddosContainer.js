@@ -11,5 +11,5 @@ export default function KiddosContainer() {
       return <KiddoCard kiddo={kiddo} />;
     });
   };
-  return <View>{renderKiddoCards}</View>;
+  return <View>{renderKiddoCards()}</View>;
 }
