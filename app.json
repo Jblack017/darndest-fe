@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "darndest-fe",
-    "slug": "darndest-fe",
+    "name": "Darndest",
+    "description": "An App to save the funny stuff you children say. Enjoy!",
+    "slug": "Darndest-fe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Darndest_Logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
