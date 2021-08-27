@@ -8,9 +8,15 @@ import {
   Pressable,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
+
+  let [fontsLoaded] = useFonts({
+    "kiddo-font": require("../assets/fonts/ButterflyKids-Regular.ttf"),
+    "FatFace-font": require("../assets/fonts/AbrilFatface-Regular.ttf"),
+  });
 
   useEffect(() => {
     fetch("https://darndest-be.herokuapp.com/kids")
@@ -18,29 +24,32 @@ export default function Home({ navigation }) {
       .then(kiddos => dispatch({ type: "SET_KIDDOS", kiddos }));
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/Darndest_Logo_short.png")}
-        ></Image>
-      </View>
-      <View style={styles.body}>
-        <Text style={{ fontSize: 50, textAlign: "center" }}>
-          Darndest is an App used to save the funny shit your kids say. Enjoy!
-        </Text>
-      </View>
-      <View style={styles.footerNav}>
-        <Text style={{ textAlign: "center" }}>
+  if (!fontsLoaded) {
+    return null;
+  } else {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image
+            style={styles.headerLogo}
+            source={require("../assets/Darndest_Logo_short.png")}
+          ></Image>
+        </View>
+        <View style={styles.body}>
+          <Text style={styles.bodyText}>
+            An App you can use to save the funny stuff your kids say. {"\n"}{" "}
+            Enjoy!
+          </Text>
+        </View>
+        <View style={styles.footerNav}>
           <Pressable onPress={() => navigation.navigate("Kiddos")}>
-            <Text>Go To Kiddos</Text>
+            <Text style={styles.buttonText}>Go To Kiddos</Text>
           </Pressable>
-        </Text>
+        </View>
+        <StatusBar style='auto' />
       </View>
-      <StatusBar style='auto' />
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -52,28 +61,47 @@ const styles = StyleSheet.create({
     height: "20%",
     width: "100%",
   },
+  headerLogo: {
+    resizeMode: "stretch",
+    height: "100%",
+    width: "100%",
+  },
   body: {
     alignItems: "center",
-    height: "70%",
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    marginRight: 10,
-    marginLeft: 10,
+    flex: 1,
+    backgroundColor: "#e0b9e5",
+    borderWidth: 15,
+    marginHorizontal: 10,
+    padding: 2,
     borderRadius: 15,
+    borderColor: "#e6c7ea",
+    justifyContent: "center",
+  },
+  bodyText: {
+    fontSize: 45,
+    textAlign: "center",
+    fontFamily: "FatFace-font",
+    lineHeight: 75,
+    letterSpacing: 1,
   },
   footerNav: {
     alignItems: "center",
     justifyContent: "center",
     height: "10%",
     backgroundColor: "#fff",
-    borderWidth: 5,
     borderRadius: 15,
+    borderWidth: 5,
+    borderColor: "#8db7d1",
     marginRight: 10,
     marginLeft: 10,
+    marginTop: 5,
+    backgroundColor: "#81afcc",
   },
-  logo: {
-    resizeMode: "stretch",
-    height: "100%",
-    width: "100%",
+  buttonText: {
+    fontSize: 65,
+    textAlign: "center",
+    fontFamily: "kiddo-font",
+    lineHeight: 90,
+    letterSpacing: 2,
   },
 });
