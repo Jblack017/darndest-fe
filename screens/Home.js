@@ -37,9 +37,10 @@ export default function Home({ navigation }) {
         </View>
         <View style={styles.body}>
           <Text style={styles.bodyText}>
-            An App you can use to save the funny stuff your kids say. {"\n"}{" "}
-            Enjoy!
+            An App you can use to save the funny stuff your kids say.
           </Text>
+          <Text style={styles.bodyText}> Enjoy!</Text>
+          <Text style={styles.bodySubText}>Start by pressing below</Text>
         </View>
         <View style={styles.footerNav}>
           <Pressable onPress={() => navigation.navigate("Kiddos")}>
@@ -75,14 +76,21 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 15,
     borderColor: "#e6c7ea",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
   bodyText: {
     fontSize: 45,
     textAlign: "center",
     fontFamily: "FatFace-font",
-    lineHeight: 75,
+    lineHeight: 70,
     letterSpacing: 1,
+  },
+  bodySubText: {
+    fontSize: 20,
+    textAlign: "center",
+    fontFamily: "FatFace-font",
+    lineHeight: 75,
+    letterSpacing: 3,
   },
   footerNav: {
     alignItems: "center",

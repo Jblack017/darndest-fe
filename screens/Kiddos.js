@@ -1,16 +1,25 @@
-import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Pressable, Button, StyleSheet, Modal } from "react-native";
 import KiddosContainer from "../containers/KiddosContainer";
+import AddKiddoModal from "../modals/AddKiddoModal";
 
 export default function Kiddos() {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <KiddosContainer />
       </View>
-      <View style={styles.button}>
-        <Button title='Add Kiddo' />
-      </View>
+      <Pressable
+        style={styles.button}
+        onPress={() => setModalVisible(!modalVisible)}
+      >
+        <Text style={styles.buttonText}>Add A Kiddo</Text>
+      </Pressable>
+      <AddKiddoModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
     </View>
   );
 }
@@ -23,11 +32,19 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  footer: {
-    height: 100,
-  },
   button: {
+    borderRadius: 20,
+    borderWidth: 5,
+    borderColor: "#bbd7b0",
+    elevation: 1,
+    width: "50%",
     alignSelf: "center",
-    marginBottom: 10,
+    alignItems: "center",
+    backgroundColor: "#abce9d",
+    marginBottom: 15,
+  },
+  buttonText: {
+    fontSize: 45,
+    fontFamily: "kiddo-font",
   },
 });
