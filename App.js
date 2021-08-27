@@ -1,27 +1,19 @@
 import React from "react";
 
+// Redux and Store Component
 import { Provider } from "react-redux";
 import { createStore } from "redux";
+import KiddoStore from "./stores/KiddoStore";
 
+const store = createStore(KiddoStore);
+
+// Navigation Components
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-// import components for navigator due to component file folders.
 import Home from "./screens/Home";
 import Kiddos from "./screens/Kiddos";
 
 const Stack = createNativeStackNavigator();
-
-const kiddos = (state = [], action) => {
-  switch (action.type) {
-    case "SET_KIDDOS":
-      return action.kiddos;
-    default:
-      return state;
-  }
-};
-
-const store = createStore(kiddos);
 
 export default function App() {
   return (

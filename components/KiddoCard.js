@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 
-export default function KiddoCard({ kiddo }) {
+export default function KiddoCard({ kiddo, handleDelete }) {
   return (
     <View
       style={{
@@ -15,13 +15,20 @@ export default function KiddoCard({ kiddo }) {
       <Text style={{ fontWeight: "bold", textAlign: "center", fontSize: 26 }}>
         {kiddo.name}
       </Text>
-      <Text style={{ fontWeight: "bold", paddingBottom: 5 }}>
+      <Text
+        style={{ fontWeight: "bold", paddingBottom: 5, textAlign: "center" }}
+      >
         {kiddo.age} years old
       </Text>
       <Text style={{ fontWeight: "bold" }}>
-        Favorite quote: "FAV QUOTE HERE "there once was a man from nantucket, he
+        Darndest quote: "FAV QUOTE HERE "there once was a man from nantucket, he
         had a good wife, he loved here""
       </Text>
+      <Button
+        title='Delete Kiddo'
+        color='#ff0000'
+        onPress={() => handleDelete(kiddo.id)}
+      />
     </View>
   );
 }
