@@ -1,7 +1,17 @@
 import React from "react";
-import { View, Text, Modal, Pressable, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  Modal,
+  Pressable,
+  TextInput,
+  StyleSheet,
+} from "react-native";
 
 export default function AddKiddoModal({ modalVisible, setModalVisible }) {
+  const [text, onChangeText] = React.useState("Useless Text");
+  const [number, onChangeNumber] = React.useState(null);
+
   return (
     <Modal
       animationType='slide'
@@ -11,17 +21,35 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
+      <SafeAreaView style={styles.centeredView}>
+        <SafeAreaView style={styles.modalView}>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={text}
+            placeholder='Kiddo Name'
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeNumber}
+            value={number}
+            placeholder='useless placeholder'
+            keyboardType='numeric'
+          />
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}
           >
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Don't Delete Kid</Text>
           </Pressable>
-        </View>
-      </View>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text style={styles.textStyle}>Vanish Child</Text>
+          </Pressable>
+        </SafeAreaView>
+      </SafeAreaView>
     </Modal>
   );
 }

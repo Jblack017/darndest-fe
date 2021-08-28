@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { SafeAreaView, Text, StyleSheet, Button } from "react-native";
 
 export default function KiddoCard({ kiddo, handleDelete }) {
   return (
-    <View
+    <SafeAreaView
       style={{
         borderWidth: 1,
         marginTop: 10,
@@ -29,7 +29,7 @@ export default function KiddoCard({ kiddo, handleDelete }) {
         color='#ff0000'
         onPress={() => handleDelete(kiddo.id)}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
+import { SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import KiddoCard from "../components/KiddoCard";
 import { useDispatch } from "react-redux";
@@ -21,5 +21,5 @@ export default function KiddosContainer() {
     });
   };
 
-  return <View>{renderKiddoCards()}</View>;
+  return <SafeAreaView>{renderKiddoCards()}</SafeAreaView>;
 }

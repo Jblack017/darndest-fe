@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {
-  View,
+  SafeAreaView,
   Text,
   StyleSheet,
   StatusBar,
@@ -28,27 +28,27 @@ export default function Home({ navigation }) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.header}>
           <Image
             style={styles.headerLogo}
             source={require("../assets/Darndest_Logo_short.png")}
           ></Image>
-        </View>
-        <View style={styles.body}>
+        </SafeAreaView>
+        <SafeAreaView style={styles.body}>
           <Text style={styles.bodyText}>
             An App you can use to save the funny stuff your kids say.
           </Text>
           <Text style={styles.bodyText}> Enjoy!</Text>
           <Text style={styles.bodySubText}>Start by pressing below</Text>
-        </View>
-        <View style={styles.footerNav}>
+        </SafeAreaView>
+        <SafeAreaView style={styles.footerNav}>
           <Pressable onPress={() => navigation.navigate("Kiddos")}>
             <Text style={styles.buttonText}>Go To Kiddos</Text>
           </Pressable>
-        </View>
+        </SafeAreaView>
         <StatusBar style='auto' />
-      </View>
+      </SafeAreaView>
     );
   }
 }

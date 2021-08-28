@@ -1,15 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, Button, StyleSheet, Modal } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  Pressable,
+  Button,
+  StyleSheet,
+  Modal,
+} from "react-native";
 import KiddosContainer from "../containers/KiddosContainer";
 import AddKiddoModal from "../modals/AddKiddoModal";
 
 export default function Kiddos() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
+    <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.contentContainer}>
         <KiddosContainer />
-      </View>
+      </SafeAreaView>
       <Pressable
         style={styles.button}
         onPress={() => setModalVisible(!modalVisible)}
@@ -20,7 +27,7 @@ export default function Kiddos() {
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
