@@ -6,11 +6,26 @@ import {
   Pressable,
   TextInput,
   StyleSheet,
+  Button,
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddKiddoModal({ modalVisible, setModalVisible }) {
-  const [text, onChangeText] = React.useState("Useless Text");
-  const [number, onChangeNumber] = React.useState(null);
+  const [text, onChangeText] = React.useState(null);
+  const [show, setShow] = React.useState(false);
+  const [kiddoBirthday, setKiddoBirthday] = React.useState(new Date());
+
+  const [month, day, year] = [
+    kiddoBirthday.getMonth() + 1,
+    kiddoBirthday.getDate(),
+    kiddoBirthday.getFullYear(),
+  ];
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || kiddoBirthday;
+    setShow(Platform.OS === "ios");
+    setKiddoBirthday(currentDate);
+  };
 
   return (
     <Modal
@@ -29,24 +44,36 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
             value={text}
             placeholder='Kiddo Name'
           />
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeNumber}
-            value={number}
-            placeholder='useless placeholder'
-            keyboardType='numeric'
-          />
+          <SafeAreaView>
+            <SafeAreaView>
+              <Button onPress={() => setShow(true)} title='Add Birthday' />
+            </SafeAreaView>
+
+            {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={kiddoBirthday}
+                mode='date'
+                display='spinner'
+                onChange={onChange}
+              />
+            )}
+          </SafeAreaView>
+
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}
           >
-            <Text style={styles.textStyle}>Don't Delete Kid</Text>
+            <Text style={styles.textStyle}>
+              {month + "/" + day + "/" + year}
+            </Text>
+            <Text style={styles.textStyle}>Add Kiddo</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}
           >
-            <Text style={styles.textStyle}>Vanish Child</Text>
+            <Text style={styles.textStyle}>Go Back</Text>
           </Pressable>
         </SafeAreaView>
       </SafeAreaView>
