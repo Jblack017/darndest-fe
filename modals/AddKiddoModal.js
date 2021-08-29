@@ -6,14 +6,18 @@ import {
   Pressable,
   TextInput,
   StyleSheet,
-  Button,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function AddKiddoModal({ modalVisible, setModalVisible }) {
-  const [text, onChangeText] = React.useState(null);
-  const [show, setShow] = React.useState(false);
+  const [name, onChangeName] = React.useState("");
+  const [nickname, onChangeNickname] = React.useState("");
   const [kiddoBirthday, setKiddoBirthday] = React.useState(new Date());
+  const [datePicker, showDatePicker] = React.useState(false);
+
+  const dispatch = useDispatch();
+  const kiddos = useSelector(state => state);
 
   const [month, day, year] = [
     kiddoBirthday.getMonth() + 1,
@@ -21,16 +25,38 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     kiddoBirthday.getFullYear(),
   ];
 
+  //Need to send Post with kiddoBirthday format of yyy-mm-dd
+  const kiddoUrl = "https://darndest-be.herokuapp.com/kids";
+  const kiddo = {
+    name: name,
+    nickname: nickname,
+    birthday: `${year + "-" + month + "-" + day}`,
+  };
+
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(kiddo),
+  };
+  const addKiddoToDB = () => {
+    fetch(kiddoUrl, options)
+      .then(response => response.json())
+      .then(kiddo => {
+        dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
+      })
+      .then(setModalVisible(false));
+  };
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || kiddoBirthday;
-    setShow(Platform.OS === "ios");
+    showDatePicker(Platform.OS === "ios");
     setKiddoBirthday(currentDate);
   };
 
   return (
     <Modal
       animationType='slide'
-      transparent={true}
+      transparent={false}
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
@@ -40,38 +66,43 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
         <SafeAreaView style={styles.modalView}>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={onChangeName}
+            value={name}
+            autoCorrect={false}
             placeholder='Kiddo Name'
           />
-          <SafeAreaView>
-            <SafeAreaView>
-              <Button onPress={() => setShow(true)} title='Add Birthday' />
-            </SafeAreaView>
-
-            {show && (
-              <DateTimePicker
-                testID='dateTimePicker'
-                value={kiddoBirthday}
-                mode='date'
-                display='spinner'
-                onChange={onChange}
-              />
-            )}
-          </SafeAreaView>
-
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeNickname}
+            value={nickname}
+            autoCorrect={false}
+            placeholder='Kiddo Nickname'
+          />
+          <TextInput
+            style={styles.input}
+            value={`${month + "-" + day + "-" + year}`}
+            onChangeText={onChange}
+            placeholder={kiddo.birthday}
+            onFocus={() => showDatePicker(!datePicker)}
+          />
+          {datePicker && (
+            <DateTimePicker
+              testID='dateTimePicker'
+              value={kiddoBirthday}
+              mode='date'
+              display='spinner'
+              onChange={onChange}
+            />
+          )}
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => addKiddoToDB()}
           >
-            <Text style={styles.textStyle}>
-              {month + "/" + day + "/" + year}
-            </Text>
             <Text style={styles.textStyle}>Add Kiddo</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => setModalVisible(false)}
           >
             <Text style={styles.textStyle}>Go Back</Text>
           </Pressable>
@@ -84,16 +115,19 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginVertical: 70,
+    marginHorizontal: 35,
   },
   modalView: {
+    justifyContent: "space-between",
+    alignItems: "center",
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "pink",
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
+    height: "100%",
+    width: "100%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -109,8 +143,6 @@ const styles = StyleSheet.create({
     borderColor: "#bbd7b0",
     elevation: 1,
     width: "50%",
-    alignSelf: "center",
-    alignItems: "center",
     backgroundColor: "#abce9d",
     marginBottom: 15,
   },

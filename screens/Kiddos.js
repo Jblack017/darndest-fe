@@ -3,9 +3,8 @@ import {
   SafeAreaView,
   Text,
   Pressable,
-  Button,
   StyleSheet,
-  Modal,
+  ScrollView,
 } from "react-native";
 import KiddosContainer from "../containers/KiddosContainer";
 import AddKiddoModal from "../modals/AddKiddoModal";
@@ -14,15 +13,17 @@ export default function Kiddos() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
-      <SafeAreaView style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer}>
         <KiddosContainer />
+      </ScrollView>
+      <SafeAreaView style={styles.footer}>
+        <Pressable
+          style={styles.button}
+          onPress={() => setModalVisible(!modalVisible)}
+        >
+          <Text style={styles.buttonText}>Add A Kiddo</Text>
+        </Pressable>
       </SafeAreaView>
-      <Pressable
-        style={styles.button}
-        onPress={() => setModalVisible(!modalVisible)}
-      >
-        <Text style={styles.buttonText}>Add A Kiddo</Text>
-      </Pressable>
       <AddKiddoModal
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
@@ -48,10 +49,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#abce9d",
-    marginBottom: 15,
+    marginVertical: 15,
   },
   buttonText: {
     fontSize: 45,
     fontFamily: "kiddo-font",
+  },
+  footer: {
+    borderTopWidth: 1,
+    borderTopColor: "#000000",
   },
 });

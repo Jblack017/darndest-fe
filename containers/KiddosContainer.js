@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import KiddoCard from "../components/KiddoCard";
-import { useDispatch } from "react-redux";
 
 export default function KiddosContainer() {
   const dispatch = useDispatch();
