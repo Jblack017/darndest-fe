@@ -1,6 +1,7 @@
 import React from "react";
 import {
   SafeAreaView,
+  View,
   Text,
   Modal,
   Pressable,
@@ -57,7 +58,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
   return (
     <Modal
       animationType='slide'
-      transparent={false}
+      transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
@@ -65,6 +66,17 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     >
       <SafeAreaView style={styles.centeredView}>
         <SafeAreaView style={styles.modalView}>
+          <Text
+            style={{
+              fontSize: 45,
+              margin: 5,
+              fontFamily: "kiddo-font",
+              borderBottomWidth: 2,
+              borderColor: "white",
+            }}
+          >
+            Add A Kiddo
+          </Text>
           <TextInput
             style={styles.input}
             onChangeText={onChangeName}
@@ -79,13 +91,25 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
             autoCorrect={false}
             placeholder='Kiddo Nickname'
           />
-          <TextInput
-            style={styles.input}
-            value={`${month + "-" + day + "-" + year}`}
-            onChangeText={onChange}
-            placeholder={kiddo.birthday}
-            onFocus={() => showDatePicker(!datePicker)}
-          />
+          <Pressable
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+            onPress={() => showDatePicker(!datePicker)}
+          >
+            <Text style={{ fontFamily: "FatFace-font", fontSize: 16 }}>
+              Birthday:
+            </Text>
+            <TextInput
+              editable={false}
+              style={styles.birthdayInput}
+              value={kiddo.birthday}
+              onChangeText={onChange}
+              placeholder='Kiddo Birthday'
+            />
+          </Pressable>
           {datePicker && (
             <DateTimePicker
               testID='dateTimePicker'
@@ -121,14 +145,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 35,
   },
   modalView: {
-    justifyContent: "space-between",
     alignItems: "center",
-    margin: 20,
     backgroundColor: "pink",
     borderRadius: 20,
-    padding: 35,
-    height: "100%",
-    width: "100%",
+    height: "auto",
+    width: "60%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -143,9 +164,29 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: "#bbd7b0",
     elevation: 1,
-    width: "50%",
+    width: "65%",
+    height: 54,
+    justifyContent: "center",
     backgroundColor: "#abce9d",
     marginBottom: 15,
+  },
+  input: {
+    height: 35,
+    width: "90%",
+    margin: 5,
+    padding: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    textAlign: "center",
+  },
+  birthdayInput: {
+    height: 35,
+    width: "54%",
+    margin: 5,
+    padding: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    textAlign: "center",
   },
   buttonText: {
     fontSize: 45,
