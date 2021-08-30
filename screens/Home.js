@@ -6,6 +6,7 @@ import {
   StatusBar,
   Image,
   Pressable,
+  Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
@@ -20,7 +21,13 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     fetch("https://darndest-be.herokuapp.com/kids")
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          return Alert.alert("Uh Oh");
+        } else {
+          return response.json();
+        }
+      })
       .then(kiddos => dispatch({ type: "SET_KIDDOS", kiddos }));
   }, []);
 

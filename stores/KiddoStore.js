@@ -6,6 +6,8 @@ export default function KiddoStore(state = [], action) {
       return action.newKiddos;
     case "DELETE_KIDDO":
       return action.newKiddos;
+    case "ERROR":
+      return state;
     default:
       return state;
   }

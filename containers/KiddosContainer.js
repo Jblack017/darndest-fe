@@ -3,18 +3,18 @@ import { SafeAreaView, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import KiddoCard from "../components/KiddoCard";
 
-export default function KiddosContainer() {
+export default function KiddosContainer(props) {
   const dispatch = useDispatch();
   const kiddos = useSelector(state => state);
 
-  const handleDelete = kiddoId => {
-    let newKiddos = kiddos.filter(kiddo => kiddo.id !== kiddoId);
-    fetch(`https://darndest-be.herokuapp.com/kids/${kiddoId}`, {
+  const handleDelete = kiddo => {
+    let newKiddos = kiddos.filter(kid => kid.id !== kiddo.id);
+    fetch(`https://darndest-be.herokuapp.com/kids/${kiddo.id}`, {
       method: "DELETE",
     })
       .then(response => {
         response.status == 202
-          ? Alert.alert("Kiddo Vanished")
+          ? Alert.alert(`${kiddo.name} has been vanished.`)
           : Alert.alert(
               "Ooops..Something went wrong. Please refresh app to continue"
             );
@@ -25,7 +25,12 @@ export default function KiddosContainer() {
   const renderKiddoCards = () => {
     return kiddos.map(kiddo => {
       return (
-        <KiddoCard key={kiddo.id} handleDelete={handleDelete} kiddo={kiddo} />
+        <KiddoCard
+          {...props}
+          key={kiddo.id}
+          handleDelete={handleDelete}
+          kiddo={kiddo}
+        />
       );
     });
   };

@@ -7,6 +7,7 @@ import {
   Pressable,
   TextInput,
   StyleSheet,
+  Alert,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,20 +34,25 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     nickname: nickname,
     birthday: `${year + "-" + month + "-" + day}`,
   };
-
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(kiddo),
   };
 
-  const addKiddoToDB = () => {
-    fetch(kiddoUrl, options)
-      .then(response => response.json())
-      .then(kiddo => {
-        dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
-      })
-      .then(setModalVisible(false));
+  const addKiddoToDB = kiddo => {
+    if (kiddo.name.length == 0) {
+      Alert.alert(
+        "Kiddo name and Birthday required.\nPlease check and try again."
+      );
+    } else {
+      fetch(kiddoUrl, options)
+        .then(response => response.json())
+        .then(kiddo => {
+          dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
+        })
+        .then(setModalVisible(false));
+    }
   };
 
   const onChange = (event, selectedDate) => {
@@ -121,7 +127,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
           )}
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => addKiddoToDB()}
+            onPress={() => addKiddoToDB(kiddo)}
           >
             <Text style={styles.textStyle}>Add Kiddo</Text>
           </Pressable>
@@ -129,7 +135,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(false)}
           >
-            <Text style={styles.textStyle}>Go Back</Text>
+            <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>
           </Pressable>
         </SafeAreaView>
       </SafeAreaView>
@@ -147,9 +153,9 @@ const styles = StyleSheet.create({
   modalView: {
     alignItems: "center",
     backgroundColor: "pink",
-    borderRadius: 20,
+    borderRadius: 40,
     height: "auto",
-    width: "60%",
+    width: "75%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -164,7 +170,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: "#bbd7b0",
     elevation: 1,
-    width: "65%",
+    width: "69%",
     height: 54,
     justifyContent: "center",
     backgroundColor: "#abce9d",
@@ -181,6 +187,7 @@ const styles = StyleSheet.create({
   },
   birthdayInput: {
     height: 35,
+    color: "black",
     width: "54%",
     margin: 5,
     padding: 10,
@@ -200,8 +207,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
-    fontWeight: "bold",
     textAlign: "center",
+    fontSize: 24,
+    fontFamily: "FatFace-font",
   },
   modalText: {
     marginBottom: 15,

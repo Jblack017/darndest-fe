@@ -1,7 +1,24 @@
 import React from "react";
-import { SafeAreaView, View, Text, StyleSheet, Button } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Alert,
+} from "react-native";
 
-export default function KiddoCard({ kiddo, handleDelete }) {
+export default function KiddoCard({ kiddo, handleDelete, navigation }) {
+  const deleteKiddoAlert = kiddo => {
+    Alert.alert(
+      `Vanish ${kiddo.name}`,
+      `This does not remove ${kiddo.name} from your life.`,
+      [
+        { text: `Keep ${kiddo.name}`, onPress: () => {} },
+        { text: `Later ${kiddo.name}`, onPress: () => handleDelete(kiddo) },
+      ]
+    );
+  };
   return (
     <SafeAreaView
       style={{
@@ -28,14 +45,14 @@ export default function KiddoCard({ kiddo, handleDelete }) {
         <Button
           title='X'
           color='#ff0000'
-          onPress={() => handleDelete(kiddo.id)}
+          onPress={() => deleteKiddoAlert(kiddo)}
         />
       </View>
       <View style={styles.commentsButton}>
         <Button
           title={`${kiddo.name}'s comments`}
           color='#0000ff'
-          onPress={() => handleDelete(kiddo.id)}
+          onPress={() => navigation.navigate("Home")}
         />
       </View>
     </SafeAreaView>

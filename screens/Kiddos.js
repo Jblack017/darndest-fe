@@ -3,11 +3,11 @@ import { SafeAreaView, StyleSheet, ScrollView } from "react-native";
 import KiddosFooter from "../components/KiddosFooter";
 import KiddosContainer from "../containers/KiddosContainer";
 
-export default function Kiddos() {
+export default function Kiddos(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.contentContainer}>
-        <KiddosContainer />
+        <KiddosContainer {...props} />
       </ScrollView>
       <KiddosFooter />
     </SafeAreaView>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, Text, Pressable, StyleSheet } from "react-native";
 import AddKiddoModal from "../modals/AddKiddoModal";
 
-export default function KiddosFooter() {
+export default function KiddosFooter(props) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -15,6 +15,7 @@ export default function KiddosFooter() {
         </Pressable>
       </SafeAreaView>
       <AddKiddoModal
+        {...props}
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
       />
