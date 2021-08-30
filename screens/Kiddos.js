@@ -1,33 +1,15 @@
-import React, { useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  Pressable,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import React from "react";
+import { SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import KiddosFooter from "../components/KiddosFooter";
 import KiddosContainer from "../containers/KiddosContainer";
-import AddKiddoModal from "../modals/AddKiddoModal";
 
 export default function Kiddos() {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.contentContainer}>
         <KiddosContainer />
       </ScrollView>
-      <SafeAreaView style={styles.footer}>
-        <Pressable
-          style={styles.button}
-          onPress={() => setModalVisible(!modalVisible)}
-        >
-          <Text style={styles.buttonText}>Add A Kiddo</Text>
-        </Pressable>
-      </SafeAreaView>
-      <AddKiddoModal
-        setModalVisible={setModalVisible}
-        modalVisible={modalVisible}
-      />
+      <KiddosFooter />
     </SafeAreaView>
   );
 }
@@ -39,24 +21,5 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-  },
-  button: {
-    borderRadius: 20,
-    borderWidth: 5,
-    borderColor: "#bbd7b0",
-    elevation: 1,
-    width: "50%",
-    alignSelf: "center",
-    alignItems: "center",
-    backgroundColor: "#abce9d",
-    marginVertical: 15,
-  },
-  buttonText: {
-    fontSize: 45,
-    fontFamily: "kiddo-font",
-  },
-  footer: {
-    borderTopWidth: 1,
-    borderTopColor: "#000000",
   },
 });

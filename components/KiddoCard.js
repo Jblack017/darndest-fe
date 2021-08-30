@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Text, StyleSheet, Button } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, Button } from "react-native";
 
 export default function KiddoCard({ kiddo, handleDelete }) {
   return (
@@ -24,18 +24,33 @@ export default function KiddoCard({ kiddo, handleDelete }) {
         Darndest quote: "FAV QUOTE HERE "there once was a man from nantucket, he
         had a good wife, he loved here""
       </Text>
-      <Button
-        title='Delete Kiddo'
-        color='#ff0000'
-        onPress={() => handleDelete(kiddo.id)}
-      />
+      <View style={styles.deleteButton}>
+        <Button
+          title='X'
+          color='#ff0000'
+          onPress={() => handleDelete(kiddo.id)}
+        />
+      </View>
+      <View style={styles.commentsButton}>
+        <Button
+          title={`${kiddo.name}'s comments`}
+          color='#0000ff'
+          onPress={() => handleDelete(kiddo.id)}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  commentsButton: {
     flex: 1,
+    paddingHorizontal: "25%",
     backgroundColor: "#fff",
+  },
+  deleteButton: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    padding: 5,
   },
 });
