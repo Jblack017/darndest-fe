@@ -38,6 +38,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(kiddo),
   };
+
   const addKiddoToDB = () => {
     fetch(kiddoUrl, options)
       .then(response => response.json())

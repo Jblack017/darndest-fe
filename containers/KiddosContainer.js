@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import KiddoCard from "../components/KiddoCard";
 
@@ -9,7 +9,17 @@ export default function KiddosContainer() {
 
   const handleDelete = kiddoId => {
     let newKiddos = kiddos.filter(kiddo => kiddo.id !== kiddoId);
-    dispatch({ type: "DELETE_KIDDO", newKiddos });
+    fetch(`https://darndest-be.herokuapp.com/kids/${kiddoId}`, {
+      method: "DELETE",
+    })
+      .then(response => {
+        response.status == 202
+          ? Alert.alert("Kiddo Vanished")
+          : Alert.alert(
+              "Ooops..Something went wrong. Please refresh app to continue"
+            );
+      })
+      .then(dispatch({ type: "DELETE_KIDDO", newKiddos }));
   };
 
   const renderKiddoCards = () => {
