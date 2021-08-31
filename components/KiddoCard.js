@@ -52,7 +52,12 @@ export default function KiddoCard({ kiddo, handleDelete, navigation }) {
         <Button
           title={`${kiddo.name}'s comments`}
           color='#0000ff'
-          onPress={() => navigation.navigate("Home")}
+          onPress={() =>
+            navigation.navigate("Kiddo Comments", {
+              kiddoId: kiddo.id,
+              kiddoName: kiddo.name,
+            })
+          }
         />
       </View>
     </SafeAreaView>

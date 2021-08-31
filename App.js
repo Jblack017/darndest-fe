@@ -12,6 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
 import Kiddos from "./screens/Kiddos";
+import KiddoComments from "./screens/KiddoComments";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,14 @@ export default function App() {
             name='Kiddos'
             component={Kiddos}
             options={{ title: "My Kiddos" }}
+          />
+
+          <Stack.Screen
+            name='Kiddo Comments'
+            component={KiddoComments}
+            options={({ route }) => ({
+              title: `${route.params.kiddoName}'s Comments`,
+            })}
           />
         </Stack.Navigator>
       </NavigationContainer>

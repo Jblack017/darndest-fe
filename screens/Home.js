@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
+import LoadingModal from "../modals/LoadingModal";
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
+  const [loading, isLoading] = useState(true);
 
   let [fontsLoaded] = useFonts({
     "kiddo-font": require("../assets/fonts/ButterflyKids-Regular.ttf"),
@@ -22,13 +24,17 @@ export default function Home({ navigation }) {
   useEffect(() => {
     fetch("https://darndest-be.herokuapp.com/kids")
       .then(response => {
+        isLoading(!loading);
         if (!response.ok) {
           return Alert.alert("Uh Oh");
         } else {
           return response.json();
         }
       })
-      .then(kiddos => dispatch({ type: "SET_KIDDOS", kiddos }));
+      .then(kiddos => {
+        isLoading(!loading);
+        dispatch({ type: "SET_KIDDOS", kiddos });
+      });
   }, []);
 
   if (!fontsLoaded) {
@@ -37,6 +43,7 @@ export default function Home({ navigation }) {
     return (
       <SafeAreaView style={styles.container}>
         <SafeAreaView style={styles.header}>
+          <LoadingModal modalVisible={loading} />
           <Image
             style={styles.headerLogo}
             source={require("../assets/Darndest_Logo_short.png")}
