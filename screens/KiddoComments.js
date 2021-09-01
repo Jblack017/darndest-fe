@@ -7,44 +7,28 @@ import {
   ScrollView,
 } from "react-native";
 import { useSelector } from "react-redux";
+import KiddoNavCards from "../components/KiddoNavCards";
 import AddCommentModal from "../modals/AddCommentModal";
 
-export default function KiddoComments({ route }) {
+export default function KiddoComments() {
   const kiddos = useSelector(state => state);
   const kiddo = kiddos.find(kiddo => kiddo.id == route.params.kiddoId);
   const [modalVisible, setModalVisible] = useState(true);
-
-  const renderKiddoNavCards = () => {
-    return kiddos.map(kiddo => {
-      return (
-        <Pressable
-          onPress={() => {
-            console.log("Handle This");
-          }}
-          style={styles.kiddoNavCards}
-          key={kiddo.id}
-        >
-          <Text style={styles.kiddoName}>{kiddo.name}</Text>
-          <Text>{kiddo.age} Years Old</Text>
-          <Text>{kiddo.comments.count || 0} Comments</Text>
-        </Pressable>
-      );
-    });
-  };
 
   const renderKiddoComments = () => {
     return kiddo.comments.map(comment => {
       return <Text key={comment.id}>{comment.content}</Text>;
     });
   };
-
   return (
     <SafeAreaView style={styles.mainView}>
       <SafeAreaView style={styles.kiddosHorizontalList}>
-        <ScrollView horizontal={true}>{renderKiddoNavCards()}</ScrollView>
+        <ScrollView horizontal={true}>
+          <KiddoNavCards />
+        </ScrollView>
       </SafeAreaView>
       <SafeAreaView style={styles.body}>
-        <Text>Body</Text>
+        <Text>{kiddo.name}</Text>
         {renderKiddoComments()}
       </SafeAreaView>
       <SafeAreaView style={styles.navigation}>
@@ -59,6 +43,7 @@ export default function KiddoComments({ route }) {
         <AddCommentModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
+          kiddo={kiddo}
         />
       </SafeAreaView>
     </SafeAreaView>

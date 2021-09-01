@@ -11,14 +11,16 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function AddCommentModal({ modalVisible, setModalVisible }) {
+export default function AddCommentModal({
+  modalVisible,
+  setModalVisible,
+  kiddo,
+}) {
   const [comment, onChangeComment] = React.useState("");
   const [commentDate, setCommentDate] = React.useState(new Date());
   const [datePicker, showDatePicker] = React.useState(false);
 
-  const dispatch = useDispatch();
-  const kiddos = useSelector(state => state);
-
+  //pull month date and year strings out of the date object
   const [month, day, year] = [
     commentDate.getMonth() + 1,
     commentDate.getDate(),
@@ -26,9 +28,9 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
   ];
 
   //Need to send Post with CommentDate format of yyy-mm-dd
-  const kiddoUrl = "https://darndest-be.herokuapp.com/kids";
+  const commentsUrl = "https://darndest-be.herokuapp.com/comments";
   const kiddoComment = {
-    // kiddoId: kiddo.id,
+    kiddoId: kiddo.id,
     comment: comment,
     commentDate: `${year + "-" + month + "-" + day}`,
   };
@@ -86,7 +88,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
             onChangeText={onChangeComment}
             value={comment}
             autoCorrect={false}
-            placeholder='"Add Kiddo Comment Here"'
+            placeholder={`'"Add A Comment for ${kiddo.name}"'`}
           />
           <Pressable
             style={{
