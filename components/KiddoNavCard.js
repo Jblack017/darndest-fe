@@ -8,10 +8,15 @@ export default function KiddoNavCard({ kiddo, deleteKiddo }) {
   const selectedKiddo = useSelector(state => state.SelectedKiddo === kiddo);
 
   const backgroundColor = selectedKiddo ? "#f2cfdd" : "#c3c6e9";
+
   return (
     <Pressable
       style={[styles.kiddoNavCard, { backgroundColor }]}
-      onPress={() => dispatch({ type: "SET_SELECTED_KIDDO", payload: kiddo })}
+      onPress={() => {
+        !selectedKiddo
+          ? dispatch({ type: "SET_SELECTED_KIDDO", payload: kiddo })
+          : dispatch({ type: "CLEAR_SELECTED_KIDDO", payload: {} });
+      }}
     >
       {!selectedKiddo || (
         <RemoveKiddoButton kiddo={kiddo} deleteKiddo={deleteKiddo} />
@@ -19,7 +24,7 @@ export default function KiddoNavCard({ kiddo, deleteKiddo }) {
       <Text style={styles.kiddoName}>{kiddo.name}</Text>
       <Text style={styles.kiddoAge}>{kiddo.age} Years Old</Text>
       <Text style={styles.kiddoCommentsCount}>
-        {kiddo.comments.count || 0} Comments
+        {kiddo.comments.length || 0} Comments
       </Text>
     </Pressable>
   );
