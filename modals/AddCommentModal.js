@@ -11,11 +11,8 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function AddCommentModal({
-  modalVisible,
-  setModalVisible,
-  kiddo,
-}) {
+export default function AddCommentModal({ modalVisible, setModalVisible }) {
+  const selectedKiddo = useSelector(state => state.SelectedKiddo);
   const [comment, onChangeComment] = React.useState("");
   const [commentDate, setCommentDate] = React.useState(new Date());
   const [datePicker, showDatePicker] = React.useState(false);
@@ -30,30 +27,28 @@ export default function AddCommentModal({
   //Need to send Post with CommentDate format of yyy-mm-dd
   const commentsUrl = "https://darndest-be.herokuapp.com/comments";
   const kiddoComment = {
-    kiddoId: kiddo.id,
+    kiddoId: selectedKiddo.id,
     comment: comment,
     commentDate: `${year + "-" + month + "-" + day}`,
   };
-  // const options = {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(kiddo),
-  // };
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(kiddoComment),
+  };
 
-  // const addKiddoToDB = kiddo => {
-  //   if (kiddo.name.length == 0) {
-  //     Alert.alert(
-  //       "Kiddo name and Birthday required.\nPlease check and try again."
-  //     );
-  //   } else {
-  //     fetch(kiddoUrl, options)
-  //       .then(response => response.json())
-  //       .then(kiddo => {
-  //         dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
-  //       })
-  //       .then(setModalVisible(false));
-  //   }
-  // };
+  const addKiddoCommentToDB = () => {
+    if (comment.length == 0) {
+      Alert.alert("Kiddo comment required.\nPlease check and try again.");
+    } else {
+      fetch(commentsUrl, options)
+        .then(response => response.json())
+        .then(kiddo => {
+          dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
+        })
+        .then(setModalVisible(false));
+    }
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || commentDate;
@@ -88,7 +83,7 @@ export default function AddCommentModal({
             onChangeText={onChangeComment}
             value={comment}
             autoCorrect={false}
-            placeholder={`'"Add A Comment for ${kiddo.name}"'`}
+            placeholder={`'"Add A Comment for ${selectedKiddo.name}"'`}
           />
           <Pressable
             style={{
@@ -119,7 +114,7 @@ export default function AddCommentModal({
           )}
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            // onPress={() => addKiddoToDB(kiddo)}
+            onPress={() => addKiddoCommentToDB()}
           >
             <Text style={styles.textStyle}>Add Comment</Text>
           </Pressable>
@@ -169,7 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    height: 150,
+    height: 125,
     width: "90%",
     margin: 5,
     padding: 10,

@@ -18,7 +18,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
   const [datePicker, showDatePicker] = React.useState(false);
 
   const dispatch = useDispatch();
-  const kiddos = useSelector(state => state);
+  const kiddos = useSelector(state => state.KiddoStore);
 
   const [month, day, year] = [
     kiddoBirthday.getMonth() + 1,
@@ -39,6 +39,12 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     body: JSON.stringify(kiddo),
   };
 
+  const formReset = () => {
+    onChangeName("");
+    onChangeNickname("");
+    setKiddoBirthday(new Date());
+  };
+
   const addKiddoToDB = kiddo => {
     if (kiddo.name.length == 0) {
       Alert.alert(
@@ -50,7 +56,10 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
         .then(kiddo => {
           dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
         })
-        .then(setModalVisible(false));
+        .then(() => {
+          formReset();
+          setModalVisible(false);
+        });
     }
   };
 
@@ -132,7 +141,10 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(false)}
+            onPress={() => {
+              formReset();
+              setModalVisible(false);
+            }}
           >
             <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>
           </Pressable>

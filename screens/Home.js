@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Image,
-  Pressable,
-  Alert,
-} from "react-native";
+import { SafeAreaView, StyleSheet, StatusBar, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { useFonts } from "expo-font";
-import LoadingModal from "../modals/LoadingModal";
+import HomeHeader from "../components/HomeHeader";
+import HomeContainer from "../containers/HomeContainer";
+import HomeFooter from "../components/HomeFooter";
+import LoadingIndicator from "../components/LoadingIndicator";
 
-export default function Home({ navigation }) {
+export default function Home(props) {
   const dispatch = useDispatch();
   const [loading, isLoading] = useState(true);
 
+  //grab fonts
   let [fontsLoaded] = useFonts({
     "kiddo-font": require("../assets/fonts/ButterflyKids-Regular.ttf"),
     "FatFace-font": require("../assets/fonts/AbrilFatface-Regular.ttf"),
   });
 
-  useEffect(() => {
+  const fetchKiddos = () => {
     fetch("https://darndest-be.herokuapp.com/kids")
       .then(response => {
         isLoading(!loading);
@@ -33,35 +29,23 @@ export default function Home({ navigation }) {
       })
       .then(kiddos => {
         isLoading(!loading);
+        // let selectedKiddo = kiddos[0];
         dispatch({ type: "SET_KIDDOS", kiddos });
+        // dispatch({ type: "SET_SELECTED_KIDDO", selectedKiddo });
       });
-  }, []);
+  };
 
-  if (!fontsLoaded) {
-    return null;
+  useEffect(fetchKiddos, []);
+
+  if (!fontsLoaded || loading) {
+    return <LoadingIndicator />;
   } else {
     return (
       <SafeAreaView style={styles.container}>
-        <SafeAreaView style={styles.header}>
-          <LoadingModal modalVisible={loading} />
-          <Image
-            style={styles.headerLogo}
-            source={require("../assets/Darndest_Logo_short.png")}
-          ></Image>
-        </SafeAreaView>
-        <SafeAreaView style={styles.body}>
-          <Text style={styles.bodyText}>
-            An App you can use to save the funny stuff your kids say.
-          </Text>
-          <Text style={styles.bodyText}> Enjoy!</Text>
-          <Text style={styles.bodySubText}>Start by pressing below</Text>
-        </SafeAreaView>
-        <SafeAreaView style={styles.footerNav}>
-          <Pressable onPress={() => navigation.navigate("Kiddos")}>
-            <Text style={styles.buttonText}>Go To Kiddos</Text>
-          </Pressable>
-        </SafeAreaView>
-        <StatusBar style='auto' />
+        <HomeHeader />
+        <HomeContainer />
+        <HomeFooter {...props} />
+        <StatusBar backgroundColor='#C94277' hidden={false} style='auto' />
       </SafeAreaView>
     );
   }
@@ -70,60 +54,6 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  header: {
-    height: "20%",
-    width: "100%",
-  },
-  headerLogo: {
-    resizeMode: "stretch",
-    height: "100%",
-    width: "100%",
-  },
-  body: {
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "#e0b9e5",
-    borderWidth: 15,
-    marginHorizontal: 10,
-    padding: 2,
-    borderRadius: 15,
-    borderColor: "#e6c7ea",
-    justifyContent: "space-between",
-  },
-  bodyText: {
-    fontSize: 45,
-    textAlign: "center",
-    fontFamily: "FatFace-font",
-    lineHeight: 70,
-    letterSpacing: 1,
-  },
-  bodySubText: {
-    fontSize: 20,
-    textAlign: "center",
-    fontFamily: "FatFace-font",
-    lineHeight: 75,
-    letterSpacing: 3,
-  },
-  footerNav: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: "10%",
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    borderWidth: 5,
-    borderColor: "#8db7d1",
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 5,
-    backgroundColor: "#81afcc",
-  },
-  buttonText: {
-    fontSize: 65,
-    textAlign: "center",
-    fontFamily: "kiddo-font",
-    lineHeight: 90,
-    letterSpacing: 2,
+    backgroundColor: "#f9f0f5", //Lavender Blush
   },
 });

@@ -1,25 +1,26 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, ScrollView } from "react-native";
-import KiddosFooter from "../components/KiddosFooter";
-import KiddosContainer from "../containers/KiddosContainer";
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet } from "react-native";
+import CommentsContainer from "../containers/CommentsContainer";
+import KiddosFooterContainer from "../containers/KiddosFooterContainer";
+import KiddosNavigationContainer from "../containers/KiddosNavigationContainer";
 
-export default function Kiddos(props) {
+export default function Kiddos() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.contentContainer}>
-        <KiddosContainer {...props} />
-      </ScrollView>
-      <KiddosFooter />
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      style={styles.kiddoScreen}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+    >
+      <KiddosNavigationContainer />
+      <CommentsContainer />
+      <KiddosFooterContainer />
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  kiddoScreen: {
     flex: 1,
-    backgroundColor: "#F5FCFF",
-  },
-  contentContainer: {
-    flex: 1,
+    backgroundColor: "#eefcf6",
   },
 });
