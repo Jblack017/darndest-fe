@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 30,
     borderColor: "#c3c6e9",
+    elevation: 5,
   },
   kiddoName: {
     color: "#c94277", //Fuchsia Rose

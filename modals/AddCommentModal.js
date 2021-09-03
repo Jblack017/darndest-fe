@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function AddCommentModal({ modalVisible, setModalVisible }) {
   const selectedKiddo = useSelector(state => state.SelectedKiddo);
+
   const [comment, onChangeComment] = React.useState("");
   const [commentDate, setCommentDate] = React.useState(new Date());
   const [datePicker, showDatePicker] = React.useState(false);
@@ -27,9 +28,9 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
   //Need to send Post with CommentDate format of yyy-mm-dd
   const commentsUrl = "https://darndest-be.herokuapp.com/comments";
   const kiddoComment = {
-    kiddoId: selectedKiddo.id,
-    comment: comment,
-    commentDate: `${year + "-" + month + "-" + day}`,
+    kiddo_id: selectedKiddo.id,
+    content: comment,
+    quoted: `${year + "-" + month + "-" + day}`,
   };
   const options = {
     method: "POST",
@@ -43,9 +44,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
     } else {
       fetch(commentsUrl, options)
         .then(response => response.json())
-        .then(kiddo => {
-          dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
-        })
+        .then(console.log)
         .then(setModalVisible(false));
     }
   };
@@ -81,6 +80,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
           <TextInput
             style={styles.input}
             onChangeText={onChangeComment}
+            autoFocus={true}
             value={comment}
             autoCorrect={false}
             placeholder={`'"Add A Comment for ${selectedKiddo.name}"'`}
@@ -99,7 +99,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
             <TextInput
               editable={false}
               style={styles.birthdayInput}
-              value={kiddoComment.commentDate}
+              value={kiddoComment.quoted}
               onChangeText={onChange}
             />
           </Pressable>

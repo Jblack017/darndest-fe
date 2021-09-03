@@ -1,10 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
-export default function HomeFooter(props) {
+export default function HomeFooter() {
+  //Access Nav
+  const navigation = useNavigation();
+
   return (
     <View style={styles.footerNav}>
-      <Pressable onPress={() => props.navigation.navigate("Kiddos")}>
+      <Pressable onPress={() => navigation.navigate("Kiddos")}>
         <Text style={styles.buttonText}>Go To Kiddos</Text>
       </Pressable>
     </View>

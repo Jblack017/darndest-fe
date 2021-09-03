@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { combineReducers, createStore } from "redux";
 import KiddoStore from "./stores/KiddoStore";
 import SelectedKiddo from "./stores/SelectedKiddo";
+import AddKiddoSwitch from "./stores/AddKiddoSwitch";
 
 // Navigation Components
 import { NavigationContainer } from "@react-navigation/native";
@@ -15,7 +16,11 @@ import Kiddos from "./screens/Kiddos";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const rootReducer = combineReducers({ KiddoStore, SelectedKiddo });
+  const rootReducer = combineReducers({
+    KiddoStore,
+    SelectedKiddo,
+    AddKiddoSwitch,
+  });
   const store = createStore(rootReducer);
 
   return (

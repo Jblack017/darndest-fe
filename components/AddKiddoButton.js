@@ -1,18 +1,15 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
+import { useDispatch } from "react-redux";
 import AddKiddoModal from "../modals/AddKiddoModal";
 
 export default function AddKiddoButton() {
-  const [modalVisible, setModalVisible] = React.useState(false);
-
+  const dispatch = useDispatch();
   return (
     <>
-      <AddKiddoModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      <AddKiddoModal />
       <Pressable
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => dispatch({ type: "OPEN_ADD_KIDDO", payload: true })}
         style={{
           flex: 1,
           alignItems: "center",
@@ -23,6 +20,7 @@ export default function AddKiddoButton() {
           borderWidth: 1,
           borderRadius: 30,
           borderColor: "#2fda96",
+          elevation: 5,
         }}
       >
         <Text style={{ fontFamily: "FatFace-font" }}>Add Kiddo</Text>

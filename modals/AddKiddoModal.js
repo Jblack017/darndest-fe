@@ -11,22 +11,35 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function AddKiddoModal({ modalVisible, setModalVisible }) {
+export default function AddKiddoModal() {
+  //State for form inputs
   const [name, onChangeName] = React.useState("");
   const [nickname, onChangeNickname] = React.useState("");
   const [kiddoBirthday, setKiddoBirthday] = React.useState(new Date());
   const [datePicker, showDatePicker] = React.useState(false);
 
-  const dispatch = useDispatch();
+  //Access Stores
   const kiddos = useSelector(state => state.KiddoStore);
+  const modalVisible = useSelector(state => state.AddKiddoSwitch);
 
+  //Access Store Actions
+  const dispatch = useDispatch();
+
+  //Extracts date as string
   const [month, day, year] = [
     kiddoBirthday.getMonth() + 1,
     kiddoBirthday.getDate(),
     kiddoBirthday.getFullYear(),
   ];
 
-  //Need to send Post with kiddoBirthday format of yyy-mm-dd
+  //Handle date change with platform variation
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || kiddoBirthday;
+    showDatePicker(Platform.OS === "ios");
+    setKiddoBirthday(currentDate);
+  };
+
+  //Send Post with kiddoBirthday format of yyy-mm-dd
   const kiddoUrl = "https://darndest-be.herokuapp.com/kids";
   const kiddo = {
     name: name,
@@ -39,6 +52,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
     body: JSON.stringify(kiddo),
   };
 
+  // Reset the form when called
   const formReset = () => {
     onChangeName("");
     onChangeNickname("");
@@ -58,15 +72,9 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
         })
         .then(() => {
           formReset();
-          setModalVisible(false);
+          dispatch({ type: "CLOSE", newKiddos: false });
         });
     }
-  };
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || kiddoBirthday;
-    showDatePicker(Platform.OS === "ios");
-    setKiddoBirthday(currentDate);
   };
 
   return (
@@ -75,7 +83,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        dispatch({ type: "CLOSE_ADD_KIDDO", payload: false });
       }}
     >
       <SafeAreaView style={styles.centeredView}>
@@ -143,7 +151,7 @@ export default function AddKiddoModal({ modalVisible, setModalVisible }) {
             style={[styles.button, styles.buttonClose]}
             onPress={() => {
               formReset();
-              setModalVisible(false);
+              dispatch({ type: "CLOSE_ADD_KIDDO", payload: false });
             }}
           >
             <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>

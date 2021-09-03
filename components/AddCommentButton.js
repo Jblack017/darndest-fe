@@ -1,9 +1,13 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
+import { useSelector } from "react-redux";
 import AddCommentModal from "../modals/AddCommentModal";
 
 export default function AddCommentButton() {
   const [modalVisible, setModalVisible] = React.useState(false);
+  const selectedKiddo = useSelector(state => state.SelectedKiddo);
+  const setOpacity = selectedKiddo.id ? 1 : 0.35;
+  const buttonText = selectedKiddo.id ? "Add Comment" : "Select A Kiddo First";
 
   return (
     <>
@@ -13,6 +17,7 @@ export default function AddCommentButton() {
       />
       <Pressable
         onPress={() => setModalVisible(!modalVisible)}
+        disabled={!selectedKiddo.id}
         style={{
           flex: 1,
           alignItems: "center",
@@ -23,9 +28,11 @@ export default function AddCommentButton() {
           borderWidth: 1,
           borderRadius: 30,
           borderColor: "#2fda96",
+          opacity: setOpacity,
+          elevation: 5,
         }}
       >
-        <Text style={{ fontFamily: "FatFace-font" }}>Add Comment</Text>
+        <Text style={{ fontFamily: "FatFace-font" }}>{buttonText}</Text>
       </Pressable>
     </>
   );
