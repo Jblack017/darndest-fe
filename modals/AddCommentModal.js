@@ -11,8 +11,12 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function AddCommentModal({ modalVisible, setModalVisible }) {
+export default function AddCommentModal() {
+  const kiddos = useSelector(state => state.KiddoStore);
   const selectedKiddo = useSelector(state => state.SelectedKiddo);
+  const modalVisible = useSelector(state => state.AddCommentSwitch);
+
+  const dispatch = useDispatch();
 
   const [comment, onChangeComment] = React.useState("");
   const [commentDate, setCommentDate] = React.useState(new Date());
@@ -28,7 +32,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
   //Need to send Post with CommentDate format of yyy-mm-dd
   const commentsUrl = "https://darndest-be.herokuapp.com/comments";
   const kiddoComment = {
-    kiddo_id: selectedKiddo.id,
+    kid_id: selectedKiddo.id,
     content: comment,
     quoted: `${year + "-" + month + "-" + day}`,
   };
@@ -38,14 +42,23 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
     body: JSON.stringify(kiddoComment),
   };
 
+  const addCommentToStore = comment => {
+    kiddos.forEach(kiddo => {
+      if (kiddo.id == selectedKiddo.id) {
+        kiddo.comments.push(comment);
+      }
+    });
+    dispatch({ type: "SET_KIDDOS", payload: kiddos });
+  };
+
   const addKiddoCommentToDB = () => {
     if (comment.length == 0) {
       Alert.alert("Kiddo comment required.\nPlease check and try again.");
     } else {
       fetch(commentsUrl, options)
         .then(response => response.json())
-        .then(console.log)
-        .then(setModalVisible(false));
+        .then(comment => addCommentToStore(comment))
+        .then(dispatch({ type: "IS_ADD_COMMENT_OPEN", payload: false }));
     }
   };
 
@@ -61,7 +74,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        dispatch({ type: "IS_ADD_COMMENT_OPEN", payload: false });
       }}
     >
       <SafeAreaView style={styles.centeredView}>
@@ -83,6 +96,7 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
             autoFocus={true}
             value={comment}
             autoCorrect={false}
+            multiline={true}
             placeholder={`'"Add A Comment for ${selectedKiddo.name}"'`}
           />
           <Pressable
@@ -120,7 +134,9 @@ export default function AddCommentModal({ modalVisible, setModalVisible }) {
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(false)}
+            onPress={() =>
+              dispatch({ type: "IS_ADD_COMMENT_OPEN", payload: false })
+            }
           >
             <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>
           </Pressable>

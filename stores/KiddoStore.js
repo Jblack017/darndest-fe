@@ -1,11 +1,13 @@
 export default function KiddoStore(state = [], action) {
   switch (action.type) {
     case "SET_KIDDOS":
-      return action.kiddos;
+      return action.payload;
     case "ADD_KIDDO":
-      return action.newKiddos;
+      return action.payload;
     case "DELETE_KIDDO":
-      return action.newKiddos;
+      return action.payload;
+    case "ADD_KIDDO_COMMENT":
+      return action.payload;
     case "ERROR":
       return state;
     default:

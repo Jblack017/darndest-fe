@@ -9,7 +9,7 @@ export default function AddKiddoButton() {
     <>
       <AddKiddoModal />
       <Pressable
-        onPress={() => dispatch({ type: "OPEN_ADD_KIDDO", payload: true })}
+        onPress={() => dispatch({ type: "IS_ADD_KIDDO_OPEN", payload: true })}
         style={{
           flex: 1,
           alignItems: "center",

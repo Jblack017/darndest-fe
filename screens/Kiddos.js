@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardAvoidingView, SafeAreaView, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import CommentsContainer from "../containers/CommentsContainer";
 import KiddosFooterContainer from "../containers/KiddosFooterContainer";
 import KiddosNavigationContainer from "../containers/KiddosNavigationContainer";

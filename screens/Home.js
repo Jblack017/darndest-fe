@@ -7,11 +7,11 @@ import HomeContainer from "../containers/HomeContainer";
 import HomeFooter from "../containers/HomeFooter";
 import LoadingIndicator from "../components/LoadingIndicator";
 
-export default function Home(props) {
+export default function Home() {
   const dispatch = useDispatch();
   const [loading, isLoading] = useState(true);
 
-  //grab fonts
+  //grab fonts on initial render
   let [fontsLoaded] = useFonts({
     "kiddo-font": require("../assets/fonts/ButterflyKids-Regular.ttf"),
     "FatFace-font": require("../assets/fonts/AbrilFatface-Regular.ttf"),
@@ -31,12 +31,11 @@ export default function Home(props) {
       })
       .then(kiddos => {
         isLoading(!loading);
-        // let selectedKiddo = kiddos[0];
-        dispatch({ type: "SET_KIDDOS", kiddos });
-        // dispatch({ type: "SET_SELECTED_KIDDO", selectedKiddo });
+        dispatch({ type: "SET_KIDDOS", payload: kiddos });
       });
   };
 
+  // Grab Kiddos on Initial Render
   useEffect(fetchKiddos, []);
 
   if (!fontsLoaded || loading) {

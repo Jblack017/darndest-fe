@@ -68,11 +68,11 @@ export default function AddKiddoModal() {
       fetch(kiddoUrl, options)
         .then(response => response.json())
         .then(kiddo => {
-          dispatch({ type: "ADD_KIDDO", newKiddos: [...kiddos, kiddo] });
+          dispatch({ type: "ADD_KIDDO", payload: [...kiddos, kiddo] });
         })
         .then(() => {
           formReset();
-          dispatch({ type: "CLOSE", newKiddos: false });
+          dispatch({ type: "IS_ADD_KIDDO_OPEN", payload: false });
         });
     }
   };
@@ -83,7 +83,7 @@ export default function AddKiddoModal() {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        dispatch({ type: "CLOSE_ADD_KIDDO", payload: false });
+        dispatch({ type: "IS_ADD_KIDDO_OPEN", payload: false });
       }}
     >
       <SafeAreaView style={styles.centeredView}>
@@ -151,7 +151,7 @@ export default function AddKiddoModal() {
             style={[styles.button, styles.buttonClose]}
             onPress={() => {
               formReset();
-              dispatch({ type: "CLOSE_ADD_KIDDO", payload: false });
+              dispatch({ type: "IS_ADD_KIDDO_OPEN", payload: false });
             }}
           >
             <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>
