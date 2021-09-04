@@ -7,6 +7,7 @@ import { combineReducers, createStore } from "redux";
 //import stores
 import KiddoStore from "./stores/KiddoStore";
 import SelectedKiddo from "./stores/SelectedKiddo";
+import SelectedComment from "./stores/SelectedComment";
 import AddKiddoSwitch from "./stores/AddKiddoSwitch";
 import AddCommentSwitch from "./stores/AddCommentSwitch";
 
@@ -23,6 +24,7 @@ export default function App() {
   const rootReducer = combineReducers({
     KiddoStore,
     SelectedKiddo,
+    SelectedComment,
     AddKiddoSwitch,
     AddCommentSwitch,
   });

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, Text, Pressable } from "react-native";
+import { View, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 import KiddoCommentCard from "../components/KiddoCommentCard";
 
@@ -30,7 +30,7 @@ export default function CommentsContainer() {
       }}
     >
       <ScrollView
-        style={{ width: "100%" }}
+        style={{ width: "100%", padding: 5 }}
         contentContainerStyle={{
           justifyContent: "center",
           alignItems: "center",

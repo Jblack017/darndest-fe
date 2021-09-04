@@ -2,12 +2,16 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import AddCommentButton from "../components/AddCommentButton";
 import AddKiddoButton from "../components/AddKiddoButton";
+import AddCommentModal from "../modals/AddCommentModal";
+import AddKiddoModal from "../modals/AddKiddoModal";
 
 export default function KiddosFooter() {
   return (
     <View style={styles.kiddoFooter}>
       <AddKiddoButton />
+      <AddKiddoModal />
       <AddCommentButton />
+      <AddCommentModal />
     </View>
   );
 }
