@@ -5,7 +5,9 @@ import RemoveKiddoButton from "./RemoveKiddoButton";
 
 export default function KiddoNavCard({ kiddo, deleteKiddo }) {
   const dispatch = useDispatch();
-  const selectedKiddo = useSelector(state => state.SelectedKiddo === kiddo);
+  const selectedKiddo = useSelector(
+    state => state.SelectedKiddo.id === kiddo.id
+  );
 
   const backgroundColor = selectedKiddo ? "#f2cfdd" : "#c3c6e9";
 

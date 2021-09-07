@@ -1,9 +1,9 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
 
-export default function RemoveCommentButton({ kiddo, deleteKiddo }) {
+export default function RemoveCommentButton({ comment, deleteComment }) {
   return (
-    <Pressable onPress={() => deleteKiddo(kiddo)} style={KiddoButtonStyle}>
+    <Pressable onPress={() => deleteComment(comment)} style={KiddoButtonStyle}>
       <Text style={{ fontFamily: "FatFace-font" }}>X</Text>
     </Pressable>
   );

@@ -8,6 +8,8 @@ export default function KiddoStore(state = [], action) {
       return action.payload;
     case "ADD_KIDDO_COMMENT":
       return action.payload;
+    case "REMOVE_KIDDO_COMMENT":
+      return action.payload;
     case "ERROR":
       return state;
     default:

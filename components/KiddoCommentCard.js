@@ -1,8 +1,9 @@
 import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import RemoveCommentButton from "./RemoveCommentButton";
 
-export default function KiddoCommentCard({ comment }) {
+export default function KiddoCommentCard({ comment, deleteComment }) {
   const selectedComment = useSelector(state => state.SelectedComment);
   const dispatch = useDispatch();
 
@@ -13,12 +14,17 @@ export default function KiddoCommentCard({ comment }) {
   return (
     <Pressable
       style={[styles.card, { backgroundColor, borderColor }]}
-      onPress={() =>
-        dispatch({ type: "SET_SELECTED_COMMENT", payload: comment })
-      }
+      onPress={() => {
+        !isSelected
+          ? dispatch({ type: "SET_SELECTED_COMMENT", payload: comment })
+          : dispatch({ type: "SET_SELECTED_COMMENT", payload: {} });
+      }}
     >
       <Text style={styles.contentText}>{comment.content}</Text>
       <Text style={styles.quotedText}>{comment.quoted}</Text>
+      {isSelected ? (
+        <RemoveCommentButton comment={comment} deleteComment={deleteComment} />
+      ) : null}
     </Pressable>
   );
 }

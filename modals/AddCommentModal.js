@@ -51,6 +51,11 @@ export default function AddCommentModal() {
     dispatch({ type: "SET_KIDDOS", payload: kiddos });
   };
 
+  const formReset = () => {
+    onChangeComment("");
+    setCommentDate(new Date());
+  };
+
   const addKiddoCommentToDB = () => {
     if (comment.length == 0) {
       Alert.alert("Kiddo comment required.\nPlease check and try again.");
@@ -128,15 +133,19 @@ export default function AddCommentModal() {
           )}
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => addKiddoCommentToDB()}
+            onPress={() => {
+              formReset();
+              addKiddoCommentToDB();
+            }}
           >
             <Text style={styles.textStyle}>Add Comment</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() =>
-              dispatch({ type: "IS_ADD_COMMENT_OPEN", payload: false })
-            }
+            onPress={() => {
+              formReset();
+              dispatch({ type: "IS_ADD_COMMENT_OPEN", payload: false });
+            }}
           >
             <Text style={{ ...styles.textStyle, color: "red" }}>Go Back</Text>
           </Pressable>
